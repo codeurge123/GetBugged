@@ -112,6 +112,9 @@ export default function Docs() {
                         skills, so embrace the challenge and have fun with it!
                     </p>
                 </div>
+                <div className="border p-2 border-red-800 bg-red-900 text-white/40">
+                    Just use getBuged from Home section working on playground section.
+                </div>
             </div>
             <Footer />
         </>

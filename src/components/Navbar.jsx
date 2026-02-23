@@ -10,7 +10,6 @@ const Navbar = () => {
                 </span>
             </div>
 
-            {/* ✅ NavLinks added here */}
             <div className="flex gap-8 text-[11px] text-white/40 tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
                 <NavLink
                     to="/"
@@ -40,7 +39,6 @@ const Navbar = () => {
                 </NavLink>
             </div>
 
-            {/* ✅ GitHub link added */}
             <a
                 href="https://github.com/codeurge123"
                 target="_blank"
