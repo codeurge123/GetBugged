@@ -6,7 +6,7 @@ const Footer = () => {
         >
             <span>© 2026 GETBUGED</span>
             <span>POWERED BY  CODEURGE</span>
-            <span>YOUR KEY. YOUR BUGS. YOUR PAIN.</span>
+            <span>OUR KEY. YOUR BUGS. YOUR PAIN.</span>
         </footer>
     )
 }

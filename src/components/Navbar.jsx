@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import bug from "../../public/getbug.png";
 const Navbar = () => {
     return (
         <nav className="sticky top-0 z-[100] bg-black/90 backdrop-blur-xl border-b border-white/[0.08] flex items-center justify-between px-10 h-[60px]">

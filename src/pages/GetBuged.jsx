@@ -353,7 +353,7 @@ export default function GetBuged() {
                             ) : (
                                 <>
                                     {selectedLevel.id === 3
-                                        ? "DESTROY MY CODE"
+                                        ? "F**KED MY CODE"
                                         : selectedLevel.id === 2
                                             ? "PLANT THE TRAPS"
                                             : "BUG MY CODE"}
@@ -366,7 +366,7 @@ export default function GetBuged() {
                     {/* HOW IT WORKS */}
                     <div className="mt-[100px] border-t border-white/[0.06] pt-20">
                         <p
-                            className="text-[10px] tracking-[0.3em] text-white/30 mb-5"
+                            className="text-[10px] tracking-[0.3em] text-white/50 mb-5"
                             style={{ fontFamily: "'Space Mono', monospace" }}
                         >
                             HOW IT WORKS
@@ -398,8 +398,8 @@ export default function GetBuged() {
                                 },
                                 {
                                     n: "03",
-                                    t: "Gemini Injects",
-                                    d: "We Gemini API key calls the model which crafts realistic, natural-looking bugs.",
+                                    t: "Gemini API Magic",
+                                    d: "Our Gemini API key calls the model which crafts realistic, natural-looking bugs.",
                                 },
                                 {
                                     n: "04",
