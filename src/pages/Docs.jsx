@@ -17,14 +17,14 @@ export default function Docs() {
                     className="text-4xl font-bold mb-6"
                     style={{ fontFamily: "'Space Mono', monospace" }}
                 >
-                    GETBUGED DOCUMENTATION
+                    GETBUGGED DOCUMENTATION
                 </h1>
                 <p
                     className="text-lg text-white/50 mb-12 max-w-2xl"
                     style={{ fontFamily: "'Space Mono', monospace" }}
                 >
-                    Welcome to the official documentation for GetBuged! This guide will help
-                    you understand how to use GetBuged effectively, whether you're a
+                    Welcome to the official documentation for GetBugged! This guide will help
+                    you understand how to use GetBugged effectively, whether you're a
                     developer looking to test your debugging skills or an educator seeking
                     to challenge your students.
                 </p>
@@ -40,7 +40,7 @@ export default function Docs() {
                         className="text-white/50 mb-6"
                         style={{ fontFamily: "'Space Mono', monospace" }}
                     >
-                        To get started with GetBuged, simply navigate to the{" "}
+                        To get started with GetBugged, simply navigate to the{" "}
                         <strong>Playground</strong> section where you can select from various
                         levels of buggy code. Each level presents unique challenges that will
                         test your debugging skills.
@@ -55,7 +55,7 @@ export default function Docs() {
                         className="text-white/50 mb-6"
                         style={{ fontFamily: "'Space Mono', monospace" }}
                     >
-                        GetBuged offers three levels of buggy code:
+                        GetBugged offers three levels of buggy code:
                     </p>
                     <ul
                         className="list-disc list-inside text-white/50 mb-6"
@@ -113,7 +113,7 @@ export default function Docs() {
                     </p>
                 </div>
                 <div className="border p-2 border-red-800 bg-red-900 text-white/40">
-                    Just use getBuged from Home section working on playground section.
+                    Just use GetBugged from Home section working on playground section.
                 </div>
             </div>
             <Footer />

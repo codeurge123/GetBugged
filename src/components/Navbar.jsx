@@ -5,7 +5,7 @@ const Navbar = () => {
         <nav className="sticky top-0 z-[100] bg-black/90 backdrop-blur-xl border-b border-white/[0.08] flex items-center justify-between px-10 h-[60px]">
             <div className="flex items-center gap-2.5">
                 <span className="text-white text-xl font-bold tracking-wide" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    GetBuged
+                    GetBugged
                 </span>
             </div>
 
