@@ -42,7 +42,7 @@ const Navbar = () => {
 
             {/* ✅ GitHub link added */}
             <a
-                href="https://github.com/your-username/your-repo"
+                href="https://github.com/codeurge123/getBuged"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2 text-[10px] border-white/30 border hover:bg-white/10 hover:text-white tracking-widest cursor-pointer"
