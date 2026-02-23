@@ -3,7 +3,7 @@ import React from "react";
 const levelBorderColors = {
     1: "border-green-400 hover:border-green-300",
     2: "border-yellow-400 hover:border-yellow-300",
-    3: "border-red-400 hover:border-red-300"
+    3: "border-red-400 hover:border-red-300",
 };
 
 const LevelCard = ({ level, selected, onClick }) => {
