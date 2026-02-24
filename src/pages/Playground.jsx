@@ -407,7 +407,7 @@ Return ONLY valid JSON array.
                             <div className="flex justify-between">
                                 <button onClick={() => setShowTestSetup(false)}>Cancel</button>
                                 <button
-                                    onClick={generateTest}
+                                    onClick={() => alert("Test generation is currently unavailable. Please check back later.")}
                                     className="bg-white text-black px-6 py-2"
                                 >
                                     Generate
