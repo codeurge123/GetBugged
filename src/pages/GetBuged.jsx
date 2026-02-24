@@ -23,6 +23,7 @@ export default function GetBuged() {
     const [typedText, setTypedText] = useState("");
     const [textIndex, setTextIndex] = useState(0);
     const [charIndex, setCharIndex] = useState(0);
+    
     const typingTexts = [
         "Injecting subtle bugs...",
         "Planting hidden traps...",
@@ -52,6 +53,7 @@ export default function GetBuged() {
         }
     }, [charIndex, textIndex]);
 
+    // use to give slide animation on mount in hero section
     useEffect(() => {
         setTimeout(() => setMounted(true), 100);
     }, []);
@@ -80,12 +82,12 @@ export default function GetBuged() {
                         contents: [{ parts: [{ text: selectedLevel.prompt(inputCode) }] }],
                         generationConfig: {
                             temperature: selectedLevel.id === 3 ? 1.0 : 0.7,
-                            maxOutputTokens: 8192,
+                            maxOutputTokens: 8192, // max etna o/p aa rh ho ga 
                         },
                     }),
                 }
             );
-
+            // agar response shi nhi aa rh hai to : 
             if (!response.ok) {
                 const err = await response.json();
                 throw new Error(err.error?.message || `API Error ${response.status}`);
