@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import GridBackground from "../components/GridBackground.jsx";
-import GlitchOverlay from "../components/GlitchOverlay.jsx";
-import Footer from "../components/Footer.jsx";
-import Navbar from "../components/Navbar.jsx";
-import LEVELS from "../components/Level.js";
-import CopyButton from "../components/CopyButton.jsx";
-import BuggedCodeDisplay from "../components/BuggedCodeDisplay.jsx";
-import LevelCard from "../components/LevelCard.jsx";
-import env from "../envdata.js";
+import GridBackground from "../../components/Effects/GridBackground.jsx";
+import GlitchOverlay from "../../components/Effects/GlitchOverlay.jsx";
+import Footer from "../../components/Footer.jsx";
+import Navbar from "../../components/Navbar.jsx";
+import LEVELS from "../../components/data/Level.js";
+import CopyButton from "../../components/Features/CopyButton.jsx";
+import BuggedCodeDisplay from "../../components/Features/BuggedCodeDisplay.jsx";
+import LevelCard from "../../components/LevelCard.jsx";
+import env from "../../envdata.js";
 
 export default function Playground() {
     const [selectedLevel, setSelectedLevel] = useState(LEVELS[0]);

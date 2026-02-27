@@ -20,7 +20,7 @@ const Navbar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/docs"
+                    to="/docs/introduction"
                     className={({ isActive }) =>
                         `cursor-pointer transition-colors duration-200 hover:text-white ${isActive ? "text-white" : ""}`
                     }

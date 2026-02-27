@@ -1,18 +1,18 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
     const navigate = useNavigate();
 
     return (
         <aside className="w-64 border-r border-white/10 hidden md:flex flex-col fixed top-8 h-[calc(100vh-64px)] bg-black">
-            <div className="p-5 text-2xl font-semibold">
+            <Link to='/' className="p-5 text-2xl font-semibold">
                 GetBugged
-            </div>
+            </Link>
 
             {/* Scrollable Nav */}
             <nav className="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
 
-                <NavLink to="/docs" end className={linkStyle}>
+                <NavLink to="/docs/introduction" end className={linkStyle}>
                     Introduction
                 </NavLink>
 

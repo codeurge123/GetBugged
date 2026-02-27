@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import Sidebar from "./Sidebar";
 
 export default function DocsLayout() {
@@ -14,7 +14,7 @@ export default function DocsLayout() {
         <Sidebar />
 
         {/* Add left margin equal to sidebar width */}
-        <main className="ml-64 p-8 max-w-4xl">
+        <main className="mx-auto p-8 max-w-4xl">
           <Outlet />
         </main>
 

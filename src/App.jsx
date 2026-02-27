@@ -1,17 +1,17 @@
 import React from "react";
-import GetBuged from "./pages/GetBuged";
+import GetBuged from "./pages/Home/GetBuged";
 import { Route, Routes } from "react-router-dom";
-import Docs from "./pages/Introduction";
-import Playground from "./pages/Playground";
-import ScrollToTop from "./components/ScrollToTop";
-import Introduction from "./pages/Introduction";
-import GettingStarted from "./pages/GettingStarted";
-import Levels from "./pages/Levels";
-import HowToUse from "./pages/HowToUse";
-import DebuggingGuide from "./pages/DebuggingGuide";
-import DocsLayout from "./components/DocsLayout";
-import BestPractices from "./pages/BestPractices";
-import CommonErrors from "./pages/CommonErrors";
+import Docs from "./pages/Docs/Introduction";
+import Playground from "./pages/playground/Playground";
+import ScrollToTop from "./components/Features/ScrollToTop";
+import Introduction from "./pages/Docs/Introduction";
+import GettingStarted from "./pages/Docs/GettingStarted";
+import Levels from "./pages/Docs/Levels";
+import HowToUse from "./pages/Docs/HowToUse";
+import DebuggingGuide from "./pages/Docs/DebuggingGuide";
+import DocsLayout from "./components/DocsComponents/DocsLayout";
+import BestPractices from "./pages/Docs/BestPractices";
+import CommonErrors from "./pages/Docs/CommonErrors";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<GetBuged />} />
         <Route path="/docs" element={<DocsLayout />}>
-          <Route index element={<Introduction />} />
+          <Route path="introduction" element={<Introduction />} />
           <Route path="getting-started" element={<GettingStarted />} />
           <Route path="levels" element={<Levels />} />
           <Route path="how-to-use" element={<HowToUse />} />
