@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-/* ---------------- Code Block Component ---------------- */
+/* ---------------- Reusable Code Block ---------------- */
 
 function CodeBlock({ code }) {
   const [copied, setCopied] = useState(false);
@@ -16,77 +16,55 @@ function CodeBlock({ code }) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="relative">
       <button
         onClick={handleCopy}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          fontSize: "12px",
-          padding: "6px 10px",
-          borderRadius: "6px",
-          border: "none",
-          background: "rgba(255,255,255,0.1)",
-          color: "white",
-          cursor: "pointer",
-        }}
+        className="absolute top-2 right-2 text-xs px-3 py-1 rounded-md
+                   border border-white/10 bg-white/5 text-white
+                   hover:bg-white/10 transition"
       >
         {copied ? "Copied ✓" : "Copy"}
       </button>
 
-      <pre
-        style={{
-          background: "#000",
-          padding: "16px",
-          borderRadius: "8px",
-          overflowX: "auto",
-          color: "white",
-        }}
-      >
+      <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
         <code>{code}</code>
       </pre>
     </div>
   );
 }
 
-/* Main Page Component */
+/* ---------------- Main Component ---------------- */
 
 export default function BestPractices() {
   return (
-    <div
-      style={{
-        maxWidth: "900px",
-        margin: "0 auto",
-        padding: "40px 20px",
-        fontFamily: "sans-serif",
-        color: "white",
-        // backgroundColor: "#111",
-        lineHeight: "1.8",
-      }}
-    >
+    <div className="space-y-16">
+
       {/* Header */}
-      <header style={{ marginBottom: "60px" }}>
-        <h1 style={{ fontSize: "36px", marginBottom: "16px" }}>
-          Best Practices
-        </h1>
-        <p style={{ opacity: 0.7 }}>
-          Debugging is a structured process of identifying and resolving
-          issues logically. Professional developers use systematic techniques
-          rather than guesswork.
+      <header>
+        <h1 className="text-4xl font-bold mb-4">Best Practices</h1>
+        <p className="text-white/60 leading-8 text-lg">
+          Debugging is a structured process of identifying and resolving issues logically.
+          Professional developers rely on systematic reasoning, controlled experiments,
+          and validation techniques instead of guesswork.
+        </p>
+
+        <p className="text-white/60 leading-8">
+          The difference between a beginner and an experienced engineer is not
+          how fast they type — but how clearly they think when something breaks.
         </p>
       </header>
 
       {/* 1 */}
-      <section style={{ marginBottom: "60px" }}>
-        <h2>1. Avoid Guesswork</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">1. Avoid Guesswork</h2>
 
-        <p style={{ opacity: 0.7 }}>
+        <p className="text-white/60 leading-8">
           Randomly modifying code without understanding the root cause often
-          creates more problems.
+          introduces more bugs. Each change should be intentional and
+          based on evidence.
         </p>
 
-        <h3 className="font-semibold text-xl">Incorrect Approach</h3>
+        <h3 className="text-xl font-medium"> Incorrect Approach</h3>
 
         <CodeBlock
           code={`function calculateTotal(price, quantity) {
@@ -96,7 +74,18 @@ export default function BestPractices() {
 console.log(calculateTotal(100)); // NaN`}
         />
 
-        <h3 style={{ marginTop: "20px" }} className="font-semibold text-xl">Correct Fix</h3>
+        <p className="text-white/60 leading-8">
+          The function assumes quantity is always provided.
+          Instead of guessing, ask:
+        </p>
+
+        <ul className="list-disc list-inside text-white/60 space-y-2">
+          <li>What happens when quantity is undefined?</li>
+          <li>Should there be a default value?</li>
+          <li>Is validation required?</li>
+        </ul>
+
+        <h3 className="text-xl font-medium"> Correct Fix</h3>
 
         <CodeBlock
           code={`function calculateTotal(price, quantity = 1) {
@@ -105,13 +94,22 @@ console.log(calculateTotal(100)); // NaN`}
 
 console.log(calculateTotal(100)); // 100`}
         />
+
+        <p className="text-white/60 leading-8">
+          The fix introduces a safe default value, making the function predictable.
+        </p>
       </section>
 
       {/* 2 */}
-      <section style={{ marginBottom: "60px" }}>
-        <h2>2. Validate Assumptions</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">2. Validate Assumptions</h2>
 
-        <h3>❌ Unsafe Code</h3>
+        <p className="text-white/60 leading-8">
+          Many crashes happen because developers assume input will always be valid.
+          In production systems, inputs are rarely perfect.
+        </p>
+
+        <h3 className="text-xl font-medium"> Unsafe Code</h3>
 
         <CodeBlock
           code={`function getUserName(user) {
@@ -121,7 +119,11 @@ console.log(calculateTotal(100)); // 100`}
 getUserName(null); // Crash`}
         />
 
-        <h3 style={{ marginTop: "20px" }}>✅ Safe Code</h3>
+        <p className="text-white/60 leading-8">
+          Accessing properties on null causes runtime failure.
+        </p>
+
+        <h3 className="text-xl font-medium">Safe Code</h3>
 
         <CodeBlock
           code={`function getUserName(user) {
@@ -131,11 +133,20 @@ getUserName(null); // Crash`}
   return user.name.toUpperCase();
 }`}
         />
+
+        <p className="text-white/60 leading-8">
+          Defensive programming prevents crashes and improves reliability.
+        </p>
       </section>
 
       {/* 3 */}
-      <section style={{ marginBottom: "60px" }}>
-        <h2>3. Think Systematically</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">3. Think Systematically</h2>
+
+        <p className="text-white/60 leading-8">
+          Break complex logic into smaller testable units.
+          Isolate functions and verify them independently.
+        </p>
 
         <CodeBlock
           code={`function calculateItemTotal(item) {
@@ -151,11 +162,20 @@ function processOrder(order) {
   );
 }`}
         />
+
+        <p className="text-white/60 leading-8">
+          Modular design improves readability, testability,
+          and reduces debugging complexity.
+        </p>
       </section>
 
       {/* 4 */}
-      <section style={{ marginBottom: "60px" }}>
-        <h2>4. Test Edge Cases</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">4. Test Edge Cases</h2>
+
+        <p className="text-white/60 leading-8">
+          Systems fail at boundaries. Always test unusual and extreme inputs.
+        </p>
 
         <CodeBlock
           code={`function divide(a, b) {
@@ -165,11 +185,20 @@ function processOrder(order) {
   return a / b;
 }`}
         />
+
+        <p className="text-white/60 leading-8">
+          Edge case testing prevents production-level incidents.
+        </p>
       </section>
 
       {/* 5 */}
-      <section style={{ marginBottom: "60px" }}>
-        <h2>5. Handle Async Code Carefully</h2>
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">5. Handle Async Code Carefully</h2>
+
+        <p className="text-white/60 leading-8">
+          Asynchronous bugs are harder to detect because they are timing-related.
+          Always handle promises properly.
+        </p>
 
         <CodeBlock
           code={`async function fetchData() {
@@ -177,17 +206,42 @@ function processOrder(order) {
   return await response.json();
 }`}
         />
-      </section>
 
-      {/* Conclusion */}
-      <section>
-        <h2>Final Thoughts</h2>
-        <p style={{ opacity: 0.7 }}>
-          Strong debugging comes from structured thinking, validation,
-          edge case testing, and modular design. Debugging is disciplined
-          problem solving — not trial and error.
+        <p className="text-white/60 leading-8">
+          Missing await, ignoring errors, or not handling loading states
+          can cause unpredictable behavior.
         </p>
       </section>
+
+      {/* Advanced */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">Advanced Debugging Habits</h2>
+
+        <ul className="list-disc list-inside text-white/60 space-y-2">
+          <li>Reproduce the issue consistently before fixing</li>
+          <li>Change one thing at a time</li>
+          <li>Write small test cases</li>
+          <li>Log before and after state changes</li>
+          <li>Check assumptions explicitly</li>
+        </ul>
+      </section>
+
+      {/* Final */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-semibold">Final Thoughts</h2>
+
+        <p className="text-white/60 leading-8">
+          Strong debugging comes from structured thinking,
+          validation, edge case testing, and modular design.
+        </p>
+
+        <p className="text-white/60 leading-8">
+          Debugging is disciplined problem solving — not trial and error.
+          The more systematic your approach, the faster and more confidently
+          you resolve real-world engineering challenges.
+        </p>
+      </section>
+
     </div>
   );
 }

@@ -1,4 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+
+/* ---------------- Reusable CodeBlock ---------------- */
+
+function CodeBlock({ code }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Copy failed:", err);
+    }
+  };
+
+  return (
+    <div className="relative">
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 text-xs px-3 py-1 rounded-md
+                   border border-white/10 bg-white/5 text-white
+                   hover:bg-white/10 transition"
+      >
+        {copied ? "Copied ✓" : "Copy"}
+      </button>
+
+      <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto text-white">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
+}
+
+/* ---------------- Main Page ---------------- */
 
 export default function DebuggingGuide() {
   return (
@@ -8,9 +43,10 @@ export default function DebuggingGuide() {
       <header>
         <h1 className="text-4xl font-bold mb-4">Debugging Guide</h1>
         <p className="text-white/60 leading-8 text-lg">
-          Debugging is a structured investigation process. Professional engineers
-          diagnose issues using logic, controlled experiments, and systematic
-          reasoning — not guesswork.
+          Debugging is not about randomly changing code until it works.
+          It is a structured investigation process where you observe behavior,
+          analyze patterns, form hypotheses, and validate solutions through
+          controlled testing.
         </p>
       </header>
 
@@ -19,20 +55,27 @@ export default function DebuggingGuide() {
         <h2 className="text-2xl font-semibold">The Debugging Mindset</h2>
 
         <p className="text-white/60 leading-8">
-          Treat every bug like a detective case. Observe symptoms,
-          form hypotheses, test assumptions, and isolate the root cause.
+          Professional engineers approach debugging like detectives.
+          They do not panic. They gather evidence, narrow possibilities,
+          and isolate the root cause logically.
         </p>
 
         <div className="bg-white/5 border border-white/10 p-4 rounded-md">
-          <p className="text-white/70">
-            Ask:
+          <p className="text-white/70 font-medium">
+            Before touching the code, ask:
           </p>
           <ul className="list-disc list-inside text-white/60 mt-2 space-y-1">
             <li>What exactly is failing?</li>
-            <li>When does it fail?</li>
-            <li>Why does it fail?</li>
+            <li>Is it failing consistently?</li>
+            <li>What changed recently?</li>
+            <li>What assumptions might be wrong?</li>
           </ul>
         </div>
+
+        <p className="text-white/60 leading-8">
+          Debugging becomes easier when you shift from emotional reaction
+          to logical reasoning.
+        </p>
       </section>
 
       {/* Step 1 */}
@@ -42,30 +85,38 @@ export default function DebuggingGuide() {
         </h2>
 
         <p className="text-white/60 leading-8">
-          You cannot fix something unless you know how it should behave.
+          You cannot fix something unless you clearly understand how it
+          is supposed to behave. Always define expected output before
+          analyzing the failure.
         </p>
 
         <h3 className="text-xl font-medium">Example</h3>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`function isEven(num) {
+        <CodeBlock
+          code={`function isEven(num) {
   return num % 2;
 }
 
 console.log(isEven(4)); // 0 (unexpected)
 `}
-        </pre>
+        />
 
         <p className="text-white/60 leading-8">
-          The function returns 0 instead of true. Expected behavior is boolean.
+          The function technically works mathematically, but it does not
+          return a boolean value as expected. The issue is not syntax —
+          it is incorrect behavior.
         </p>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`function isEven(num) {
+        <CodeBlock
+          code={`function isEven(num) {
   return num % 2 === 0;
 }
 `}
-        </pre>
+        />
+
+        <p className="text-white/60 leading-8">
+          Always compare actual output with expected output.
+        </p>
       </section>
 
       {/* Step 2 */}
@@ -75,22 +126,24 @@ console.log(isEven(4)); // 0 (unexpected)
         </h2>
 
         <p className="text-white/60 leading-8">
-          Bugs that cannot be reproduced cannot be reliably fixed.
+          A bug that cannot be reproduced cannot be reliably fixed.
+          Reproduction ensures the issue is real and measurable.
         </p>
 
         <h3 className="text-xl font-medium">Example</h3>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`function greet(user) {
+        <CodeBlock
+          code={`function greet(user) {
   return "Hello " + user.name;
 }
 
 greet(null); // Crash
 `}
-        </pre>
+        />
 
         <p className="text-white/60 leading-8">
-          Reproducing with null shows the crash consistently.
+          Passing null reveals a consistent crash.
+          This confirms that unsafe property access is the problem.
         </p>
       </section>
 
@@ -101,18 +154,24 @@ greet(null); // Crash
         </h2>
 
         <p className="text-white/60 leading-8">
-          The crash is not the root cause. The root cause is unsafe data access.
+          The visible error is rarely the root cause.
+          Break the system into smaller pieces and test each part.
         </p>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`function greet(user) {
+        <CodeBlock
+          code={`function greet(user) {
   if (!user || !user.name) {
     return "Hello Guest";
   }
   return "Hello " + user.name;
 }
 `}
-        </pre>
+        />
+
+        <p className="text-white/60 leading-8">
+          Instead of fixing everything, we introduced a guard condition.
+          This isolates the unsafe assumption and corrects it safely.
+        </p>
       </section>
 
       {/* Step 4 */}
@@ -123,31 +182,37 @@ greet(null); // Crash
 
         <p className="text-white/60 leading-8">
           Many modern bugs occur due to improper asynchronous handling.
+          Timing issues often create unpredictable behavior.
         </p>
 
-        <h3 className="text-xl font-medium">❌ Missing await</h3>
+        <h3 className="text-xl font-medium">Missing await</h3>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`async function fetchData() {
+        <CodeBlock
+          code={`async function fetchData() {
   const response = fetch("/api/data");
   return response.json();
 }
 `}
-        </pre>
+        />
 
         <p className="text-white/60 leading-8">
-          This returns a Promise instead of resolved data.
+          This returns a Promise instead of resolved data,
+          leading to unexpected behavior.
         </p>
 
-        <h3 className="text-xl font-medium">✅ Correct</h3>
+        <h3 className="text-xl font-medium">Correct</h3>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`async function fetchData() {
+        <CodeBlock
+          code={`async function fetchData() {
   const response = await fetch("/api/data");
   return await response.json();
 }
 `}
-        </pre>
+        />
+
+        <p className="text-white/60 leading-8">
+          Proper async handling eliminates timing-related bugs.
+        </p>
       </section>
 
       {/* Step 5 */}
@@ -157,33 +222,34 @@ greet(null); // Crash
         </h2>
 
         <p className="text-white/60 leading-8">
-          Mutating state directly is a common bug.
+          Mutating state directly causes unpredictable UI behavior.
+          React requires immutable state updates.
         </p>
 
-        <h3 className="text-xl font-medium">❌ Incorrect</h3>
+        <h3 className="text-xl font-medium">Incorrect</h3>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`const [count, setCount] = useState(0);
+        <CodeBlock
+          code={`const [count, setCount] = useState(0);
 
 function increment() {
   count++;
   setCount(count);
 }
 `}
-        </pre>
+        />
 
-        <p className="text-white/60 leading-8">
-          React state should not be mutated directly.
-        </p>
+        <h3 className="text-xl font-medium">Correct</h3>
 
-        <h3 className="text-xl font-medium">✅ Correct</h3>
-
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`function increment() {
+        <CodeBlock
+          code={`function increment() {
   setCount(prev => prev + 1);
 }
 `}
-        </pre>
+        />
+
+        <p className="text-white/60 leading-8">
+          Functional updates prevent race conditions and ensure reliability.
+        </p>
       </section>
 
       {/* Advanced */}
@@ -193,11 +259,12 @@ function increment() {
         </h2>
 
         <p className="text-white/60 leading-8">
-          Race conditions happen when multiple async operations compete.
+          Race conditions occur when multiple asynchronous operations
+          compete for execution order.
         </p>
 
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`let data;
+        <CodeBlock
+          code={`let data;
 
 async function load() {
   fetch("/api/data").then(res => res.json()).then(d => {
@@ -207,20 +274,12 @@ async function load() {
   console.log(data); // undefined
 }
 `}
-        </pre>
+        />
 
         <p className="text-white/60 leading-8">
           Logging happens before async completion.
+          Always await async operations.
         </p>
-
-        <pre className="bg-black border border-white/10 p-4 rounded-md text-sm overflow-x-auto">
-{`async function load() {
-  const res = await fetch("/api/data");
-  const data = await res.json();
-  console.log(data);
-}
-`}
-        </pre>
       </section>
 
       {/* Common Mistakes */}
@@ -232,9 +291,9 @@ async function load() {
         <ul className="list-disc list-inside text-white/60 space-y-2">
           <li>Changing multiple things at once</li>
           <li>Ignoring console errors</li>
-          <li>Not checking edge cases</li>
-          <li>Assuming instead of verifying</li>
-          <li>Skipping proper validation</li>
+          <li>Not verifying assumptions</li>
+          <li>Skipping edge case testing</li>
+          <li>Fixing symptoms instead of root cause</li>
         </ul>
       </section>
 
@@ -244,11 +303,13 @@ async function load() {
 
         <p className="text-white/60 leading-8">
           Debugging is about reducing uncertainty step by step.
-          The more systematic your approach, the faster you solve problems.
+          The more structured your approach, the faster and more
+          confidently you solve complex problems.
         </p>
 
         <p className="text-white/60 leading-8">
-          Treat every GetBugged challenge like a production-level issue.
+          Treat every GetBugged challenge like a real production incident.
+          Build the habit of thinking systematically.
         </p>
       </section>
 

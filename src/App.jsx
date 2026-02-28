@@ -12,6 +12,11 @@ import DebuggingGuide from "./pages/Docs/DebuggingGuide";
 import DocsLayout from "./components/DocsComponents/DocsLayout";
 import BestPractices from "./pages/Docs/BestPractices";
 import CommonErrors from "./pages/Docs/CommonErrors";
+import ReactBugs from "./pages/Docs/ReactBugs";
+import AsyncBugs from "./pages/Docs/AsyncBugs";
+import PerformanceIssues from "./pages/Docs/PerformanceIssues";
+import SecurityBugs from "./pages/Docs/SecurityBugs"
+
 
 function App() {
   return (
@@ -27,6 +32,11 @@ function App() {
           <Route path="debugging-guide" element={<DebuggingGuide />} />
           <Route path="best-practices" element={<BestPractices />} />
           <Route path="common-errors" element={<CommonErrors />} />
+          <Route path="react-bugs" element={<ReactBugs />} />
+          <Route path="async-bugs" element={<AsyncBugs />}/>
+          <Route path="performance-issues" element={<PerformanceIssues />} />
+          <Route path="security-bugs" element={<SecurityBugs />} /> 
+          
           {/* <Route path="async-bugs" element={<AsyncBugs />} />
           <Route path="react-bugs" element={<ReactBugs />} />
           <Route path="performance-issues" element={<PerformanceIssues />} />
