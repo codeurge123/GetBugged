@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const GOOGLE_BACKEND_URL =
-  (import.meta.env.VITE_API_BASE || "http://localhost:4000/api") + "/auth/google";
+  (import.meta.env.VITE_API_BASE || "https://getbugged-backend.vercel.app/api") + "/auth/google";
 
 export default function Signup() {
   const { signup, fetchProfile } = useAuth();
