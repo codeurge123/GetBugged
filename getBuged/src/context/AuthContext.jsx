@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
-const API_BASE = import.meta.env.VITE_API_BASE || "https://getbugged-backend.vercel.app/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://get-bugged.vercel.app/api";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
