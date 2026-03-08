@@ -1,7 +1,9 @@
 import { useState } from "react";
 import CopyButton from "./CopyButton.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function CodeDebugger() {
+  const { apiBase } = useAuth();
   const [inputCode, setInputCode] = useState("");
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function CodeDebugger() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:4000/api/playground/debug-code", {
+      const response = await fetch(`${apiBase}/playground/debug-code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: inputCode }),

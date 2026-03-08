@@ -12,15 +12,27 @@ connectDB().catch((err) => console.error(err));
 
 const app = express();
 
-// CORS middleware - allow specific origin with credentials
+// CORS - use env for flexible deployment (comma-separated origins)
+const defaultOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://getbugged.codeurge.online', // production frontend
+];
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean)
+  : defaultOrigins;
+
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://getbugged.codeurge.online'
-  ],
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.includes(origin)) return cb(null, true);
+    if (process.env.NODE_ENV === 'development') return cb(null, true);
+    cb(null, false);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));

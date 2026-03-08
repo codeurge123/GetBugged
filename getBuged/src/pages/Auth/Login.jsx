@@ -4,11 +4,8 @@ import Navbar from "../../components/Navbar.jsx";
 import Footer from "../../components/Footer.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-const GOOGLE_BACKEND_URL =
-  (import.meta.env.VITE_API_BASE || "https://get-bugged.vercel.app/api") + "/auth/google";
-
 export default function Login() {
-  const { login, fetchProfile } = useAuth();
+  const { apiBase, login, fetchProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || "/playground";
@@ -34,7 +31,7 @@ export default function Login() {
   };
 
   const handleGoogle = () => {
-    window.location.href = GOOGLE_BACKEND_URL;
+    window.location.href = `${apiBase}/auth/google`;
   };
 
   return (

@@ -2,7 +2,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
-const API_BASE = import.meta.env.VITE_API_BASE || "https://get-bugged.vercel.app/api";
+// VITE_API_BASE: backend URL including /api. Dev: /api (Vite proxy).
+// Production fallback: https://get-bugged.vercel.app/api
+const API_BASE =
+  import.meta.env.VITE_API_BASE ??
+  (import.meta.env.DEV ? "/api" : "https://get-bugged.vercel.app/api");
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
