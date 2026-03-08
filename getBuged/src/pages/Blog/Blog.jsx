@@ -108,7 +108,7 @@ export default function Blog() {
                             }}
                         >
                             <p className="text-[10px] tracking-[0.3em] text-white/50 mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>
-                                COMMUNITY KNOWLEDGE
+                                COMMUNITY KNOWLEDGE.
                             </p>
                             <h1 className="text-5xl font-normal mb-6" style={{ fontFamily: "'DM Serif Display', serif" }}>
                                 Developer Blogs
