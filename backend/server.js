@@ -16,8 +16,9 @@ const app = express();
 const defaultOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  'https://getbugged.codeurge.online', // production frontend
+  'https://getbugged.codeurge.online', // production frontend level
 ];
+
 const allowedOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean)
   : defaultOrigins;
