@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 // Production fallback: https://get-bugged.vercel.app/api
 const API_BASE =
   import.meta.env.VITE_API_BASE ??
-  (import.meta.env.DEV ? "/api" : "https://get-bugged.vercel.app/api");
+  (import.meta.env.DEV ? "/api" : "https://getbugged.onrender.com/api");
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
