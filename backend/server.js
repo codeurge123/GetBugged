@@ -17,7 +17,10 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      process.env.CLIENT_URL
+      "http://localhost:3000",
+      process.env.CLIENT_URL,
+      "https://getbugged.vercel.app",
+      /\.vercel\.app$/  // Allow all Vercel deployments
     ],
     credentials: true
   })

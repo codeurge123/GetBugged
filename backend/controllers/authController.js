@@ -34,7 +34,7 @@ export const signup = async (req, res) => {
       password: hashedPassword
     });
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
 
     return res.status(201).json({
       success: true,
@@ -91,7 +91,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
 
     return res.json({
       success: true,
@@ -138,12 +138,8 @@ export const logout = (req, res) => {
 
 
 
-// ======================
-// UPDATE NAME
-// ======================
 export const updateName = async (req, res) => {
   try {
-
     const { name } = req.body;
 
     if (!name || typeof name !== "string" || name.trim() === "") {
@@ -153,7 +149,20 @@ export const updateName = async (req, res) => {
       });
     }
 
-    const user = await User.findById(req.user.id);
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { name: name.trim() },
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -161,9 +170,6 @@ export const updateName = async (req, res) => {
         message: "User not found"
       });
     }
-
-    user.name = name.trim();
-    await user.save();
 
     return res.json({
       success: true,

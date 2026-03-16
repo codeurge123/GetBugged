@@ -162,4 +162,45 @@ async function getHistoryDetail(req, res) {
     }
 }
 
-export { submitDebugging, submitTest, getProfile, getHistoryDetail };
+async function deleteHistoryEntry(req, res) {
+    const { historyId } = req.params;
+    
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        const entry = user.history.id(historyId);
+        if (!entry) {
+            return res.status(404).json({ message: 'History entry not found' });
+        }
+        
+        // Remove the entry
+        user.history.pull(historyId);
+        
+        // Update stats based on remaining entries
+        if (entry.type === 'debugging') {
+            const debuggingEntries = user.history.filter(h => h.type === 'debugging');
+            const totalScore = debuggingEntries.reduce((sum, h) => sum + h.score, 0);
+            user.debuggingStats.total = debuggingEntries.length;
+            user.debuggingStats.avgScore = debuggingEntries.length > 0 ? Math.round(totalScore / debuggingEntries.length) : 0;
+        } else if (entry.type === 'test') {
+            const testEntries = user.history.filter(h => h.type === 'test');
+            const totalScore = testEntries.reduce((sum, h) => sum + h.score, 0);
+            user.testStats.total = testEntries.length;
+            user.testStats.avgScore = testEntries.length > 0 ? Math.round(totalScore / testEntries.length) : 0;
+        }
+        
+        await user.save();
+        res.json({ 
+            message: 'History entry deleted',
+            history: user.history 
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+export { submitDebugging, submitTest, getProfile, getHistoryDetail, deleteHistoryEntry };

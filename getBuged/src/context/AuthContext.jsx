@@ -2,8 +2,9 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
-// Dev always uses Vite proxy (`/api` -> backend). Prod can use VITE_API_BASE or localhost fallback.
-const API_BASE = "http://localhost:4000/api"
+// In development: use /api (proxied by Vite)
+// In production: use full backend URL from environment or default to Vercel backend
+const API_BASE = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? "/api" : "https://getbugged-backend.vercel.app/api")
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -21,6 +22,13 @@ export function AuthProvider({ children }) {
     }
     setLoading(false);
   }, []);
+
+  // Fetch profile when accessToken is available
+  useEffect(() => {
+    if (accessToken && !loading) {
+      fetchProfile();
+    }
+  }, [accessToken, loading]);
 
   const saveAuth = (userData, token) => {
     setUser(userData);
@@ -91,23 +99,32 @@ export function AuthProvider({ children }) {
   const fetchProfile = async () => {
     if (!accessToken) return null;
     try {
+      console.log('Fetching profile data...');
       const res = await fetch(`${API_BASE}/playground/me`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      if (!res.ok) throw new Error('Failed to load profile');
+      if (!res.ok) {
+        console.error('Failed to fetch profile:', res.status, res.statusText);
+        throw new Error('Failed to load profile');
+      }
       const data = await res.json();
-      // merge history and all user data into user object
-      setUser((u) => ({ ...u, history: data.history, debuggingStats: data.debuggingStats, testStats: data.testStats }));
+      console.log('Profile data fetched successfully:', data);
+      // Update the complete user object from server
+      setUser(data);
+      // Also update localStorage with fresh data
+      window.localStorage.setItem("gb_user", JSON.stringify(data));
       return data;
     } catch (err) {
-      console.error(err);
+      console.error('fetchProfile error:', err);
+      // If profile fetch fails, clear auth to force re-login
+      clearAuth();
       return null;
     }
   };
 
   const updateUser = async (userData) => {
     setUser((u) => ({ ...u, ...userData }));
-    window.localStorage.setItem("gb_user", JSON.stringify(userData));
+    // Don't update localStorage here - fetchProfile will handle it with complete server data
     return userData;
   };
 

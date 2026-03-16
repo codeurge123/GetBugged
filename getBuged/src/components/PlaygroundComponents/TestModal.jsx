@@ -15,11 +15,20 @@ export default function TestModal({ questions, title, difficulty, onClose, apiBa
             const userAnswer = answers[i];
             answerArray.push(userAnswer || "");
             
-            // Normalize comparison: trim whitespace and compare directly
-            const isCorrect = userAnswer && userAnswer.trim() === (q.correct ? q.correct.toString().trim() : "");
+            // Handle both cases: q.correct could be an index (0,1,2,3) or letter (A,B,C,D)
+            let correctAnswer = q.correct;
+            
+            // If correct is a number (index), convert to the actual option text
+            if (typeof q.correct === 'number' || /^\d+$/.test(q.correct)) {
+                const idx = parseInt(q.correct);
+                correctAnswer = q.options[idx] || q.correct;
+            }
+            
+            // Normalize comparison: trim whitespace and compare
+            const isCorrect = userAnswer && userAnswer.trim() === (correctAnswer ? correctAnswer.toString().trim() : "");
             
             if (isCorrect) correct++;
-            console.log(`Q${i}: User="${userAnswer}" | Correct="${q.correct}" | Match=${isCorrect}`);
+            console.log(`Q${i}: User="${userAnswer}" | Correct="${correctAnswer}" | Match=${isCorrect}`);
         });
         
         const pct = Math.round((correct / questions.length) * 100);
@@ -150,22 +159,32 @@ export default function TestModal({ questions, title, difficulty, onClose, apiBa
                         </div>
                         <p className="text-white/50 text-[11px] mb-2">{result.correct} / {result.total} correct</p>
                         <p className="text-white/40 text-[10px] mb-10">{result.feedback}</p>
-                        {questions.map((q, index) => (
+                        {questions.map((q, index) => {
+                            // Convert q.correct to actual option text if it's an index
+                            let correctAnswer = q.correct;
+                            if (typeof q.correct === 'number' || /^\d+$/.test(q.correct)) {
+                                const idx = parseInt(q.correct);
+                                correctAnswer = q.options[idx] || q.correct;
+                            }
+                            const isAnswerCorrect = answers[index] === correctAnswer;
+                            
+                            return (
                             <div key={index} className="mb-4 border p-5 text-left"
                                 style={{
-                                    borderColor: answers[index] === q.correct ? "rgba(74,222,128,0.2)" : "rgba(248,113,113,0.2)",
-                                    background: answers[index] === q.correct ? "rgba(74,222,128,0.03)" : "rgba(248,113,113,0.03)",
+                                    borderColor: isAnswerCorrect ? "rgba(74,222,128,0.2)" : "rgba(248,113,113,0.2)",
+                                    background: isAnswerCorrect ? "rgba(74,222,128,0.03)" : "rgba(248,113,113,0.03)",
                                 }}>
                                 <p className="text-[10px] text-white/60 mb-2">{index + 1}. {q.question}</p>
                                 <p className="text-[10px]"
-                                    style={{ color: answers[index] === q.correct ? "#4ade80" : "#f87171" }}>
+                                    style={{ color: isAnswerCorrect ? "#4ade80" : "#f87171" }}>
                                     Your answer: {answers[index] || "—"}
                                 </p>
-                                {answers[index] !== q.correct && (
-                                    <p className="text-[10px] text-green-400 mt-1">Correct: {q.correct}</p>
+                                {!isAnswerCorrect && (
+                                    <p className="text-[10px] text-green-400 mt-1">Correct: {correctAnswer}</p>
                                 )}
                             </div>
-                        ))}
+                        );
+                        })}
                         <div className="flex gap-3 justify-center mt-8">
                             <button onClick={handleSaveTest}
                                 disabled={isSubmitting}

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import GridBackground from "../../components/Effects/GridBackground.jsx";
+import TestDetailModal from "../../components/TestDetailModal.jsx";
 
 export default function Profile() {
-    const { user, accessToken, apiBase, updateUser, logout } = useAuth();
+    const { user, accessToken, apiBase, updateUser, fetchProfile, logout } = useAuth();
     const navigate = useNavigate();
     const history = user?.history || [];
     const debuggingHistory = history.filter(h => h.type === 'debugging');
@@ -13,6 +14,8 @@ export default function Profile() {
     const [editingName, setEditingName] = useState(user?.name || "");
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateMessage, setUpdateMessage] = useState("");
+    const [selectedTestDetail, setSelectedTestDetail] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(null);
 
     const handleUpdateName = async () => {
         if (!editingName.trim()) {
@@ -57,7 +60,41 @@ export default function Profile() {
 
     const handleLogout = async () => {
         await logout();
-        navigate("/");
+        navigate('/');
+    };
+
+    const handleViewTestDetail = (testItem) => {
+        setSelectedTestDetail(testItem);
+    };
+
+    const handleDeleteHistory = async (historyId, type) => {
+        if (!window.confirm(`Are you sure you want to delete this ${type} entry?`)) {
+            return;
+        }
+
+        setIsDeleting(historyId);
+        try {
+            const response = await fetch(`${apiBase}/playground/history/${historyId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to delete entry');
+            }
+
+            // Refresh user profile to update history
+            await fetchProfile();
+            alert('Entry deleted successfully');
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert(`Error deleting entry: ${err.message}`);
+        } finally {
+            setIsDeleting(null);
+        }
     };
 
     const renderHistoryItem = (item, idx, type) => {
@@ -136,6 +173,18 @@ export default function Profile() {
                                         <p className="text-white font-mono">{item.timeTaken}</p>
                                     </div>
                                 </div>
+                                <div className="flex gap-2 pt-2">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteHistory(item._id, 'debugging');
+                                        }}
+                                        disabled={isDeleting === item._id}
+                                        className="px-3 py-1 text-[9px] tracking-widest border border-red-400/30 text-red-400 hover:bg-red-400/10 transition-colors disabled:opacity-50"
+                                    >
+                                        {isDeleting === item._id ? 'DELETING...' : 'DELETE'}
+                                    </button>
+                                </div>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -166,6 +215,27 @@ export default function Profile() {
                                             );
                                         })}
                                     </div>
+                                </div>
+                                <div className="flex gap-2 pt-2">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleViewTestDetail(item);
+                                        }}
+                                        className="px-3 py-1 text-[9px] tracking-widest border border-blue-400/30 text-blue-400 hover:bg-blue-400/10 transition-colors"
+                                    >
+                                        VIEW DETAILS
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteHistory(item._id, 'test');
+                                        }}
+                                        disabled={isDeleting === item._id}
+                                        className="px-3 py-1 text-[9px] tracking-widest border border-red-400/30 text-red-400 hover:bg-red-400/10 transition-colors disabled:opacity-50"
+                                    >
+                                        {isDeleting === item._id ? 'DELETING...' : 'DELETE'}
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -309,6 +379,14 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+
+            {/* Test Detail Modal */}
+            {selectedTestDetail && (
+                <TestDetailModal
+                    testData={selectedTestDetail}
+                    onClose={() => setSelectedTestDetail(null)}
+                />
+            )}
         </div>
     );
 }

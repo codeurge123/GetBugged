@@ -5,12 +5,12 @@ const HistorySchema = new mongoose.Schema({
     level: { type: String, required: true },
     score: { type: Number, required: true },
     date: { type: Date, default: Date.now },
-    
+
     // For debugging submissions
     bugsFound: { type: Number },
     totalBugs: { type: Number },
     timeTaken: { type: String }, // e.g., "2m 30s"
-    
+
     // For test submissions
     questions: [
         {
