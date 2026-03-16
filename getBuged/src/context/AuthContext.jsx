@@ -3,8 +3,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext(null);
 
 // In development: use /api (proxied by Vite)
-// In production: use full backend URL from environment or default to Vercel backend
-const API_BASE = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? "/api" : "https://getbugged-backend.vercel.app/api")
+// In production: use full backend URL from environment or default to Render backend
+const API_BASE = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? "/api" : "https://getbugged.onrender.com/api")
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);

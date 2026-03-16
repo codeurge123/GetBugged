@@ -19,7 +19,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       process.env.CLIENT_URL,
-      "https://getbugged.vercel.app",
+      "https://getbugged.codeurge.online",
       /\.vercel\.app$/  // Allow all Vercel deployments
     ],
     credentials: true
