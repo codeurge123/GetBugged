@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 
+// Accept a Mongoose user document or an object with _id/id/email/name/picture
 export function generateToken(user) {
-  // user should contain at least id and email
+  const id = user.id ?? user._id;
   const payload = {
-    id: user.id,
+    id,
     email: user.email,
     name: user.name,
     picture: user.picture,

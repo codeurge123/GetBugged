@@ -117,69 +117,20 @@ export const login = async (req, res) => {
 
 
 // ======================
-// GOOGLE CALLBACK
-// ======================
-export const googleCallback = (req, res) => {
-  try {
-    if (!req.user) {
-      return res.status(400).json({
-        message: "Google authentication failed"
-      });
-    }
-
-    const token = generateToken(req.user._id);
-
-    const frontend = process.env.CLIENT_URL || "http://localhost:5173";
-
-    const query = new URLSearchParams({
-      accessToken: token,
-      email: req.user.email,
-      name: req.user.name
-    }).toString();
-
-    return res.redirect(`${frontend}/auth/callback?${query}`);
-
-  } catch (error) {
-    console.error("Google callback error:", error);
-
-    return res.status(500).json({
-      message: "Google auth failed"
-    });
-  }
-};
-
-
-
-// ======================
 // LOGOUT
 // ======================
 export const logout = (req, res) => {
   try {
-
-    if (req.logout) {
-      req.logout((err) => {
-        if (err) {
-          return res.status(500).json({
-            message: "Logout failed"
-          });
-        }
-
-        return res.json({
-          success: true,
-          message: "Logged out successfully"
-        });
-      });
-    } else {
-      return res.json({
-        success: true,
-        message: "Logged out"
-      });
-    }
+    return res.json({
+      success: true,
+      message: "Logged out successfully"
+    });
 
   } catch (error) {
     console.error("Logout error:", error);
 
     return res.status(500).json({
+      success: false,
       message: "Logout failed"
     });
   }
@@ -197,6 +148,7 @@ export const updateName = async (req, res) => {
 
     if (!name || typeof name !== "string" || name.trim() === "") {
       return res.status(400).json({
+        success: false,
         message: "Valid name required"
       });
     }
@@ -205,6 +157,7 @@ export const updateName = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
+        success: false,
         message: "User not found"
       });
     }
@@ -226,6 +179,7 @@ export const updateName = async (req, res) => {
     console.error("Update name error:", error);
 
     return res.status(500).json({
+      success: false,
       message: "Update name failed"
     });
   }

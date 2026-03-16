@@ -2,11 +2,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
-// VITE_API_BASE: backend URL including /api. Dev: /api (Vite proxy).
-// Production fallback: https://get-bugged.vercel.app/api
-const API_BASE =
-  import.meta.env.VITE_API_BASE ??
-  (import.meta.env.DEV ? "/api" : "https://getbugged.onrender.com/api");
+// Dev always uses Vite proxy (`/api` -> backend). Prod can use VITE_API_BASE or localhost fallback.
+const API_BASE = "http://localhost:4000/api"
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
