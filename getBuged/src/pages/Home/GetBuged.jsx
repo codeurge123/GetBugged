@@ -76,7 +76,7 @@ export default function GetBuged() {
                 `${apiBase}/playground/generate-bug`,
                 {
                     method: "POST",
-                    headers: { 
+                    headers: {
                         "Content-Type": "application/json",
                         Authorization: accessToken ? `Bearer ${accessToken}` : "",
                     },
@@ -245,7 +245,7 @@ export default function GetBuged() {
                                 if (mode !== "bug") e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
                             }}
                         >
-                            🐛 GET BUGGED
+                            GET BUGGED
                         </button>
                         <button
                             onClick={() => { setMode("debug"); setOutputCode(""); setError(""); }}
@@ -264,29 +264,29 @@ export default function GetBuged() {
                                 if (mode !== "debug") e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
                             }}
                         >
-                            🔍 GET DEBUGGED
+                            GET DEBUGGED
                         </button>
                     </div>
 
                     {/* LEVEL SELECTOR - Only show in BUG mode */}
                     {mode === "bug" && (
-                    <div className="mb-12">
-                        <p className="text-[10px] tracking-[0.25em] text-white/50 mb-5"
-                            style={{ fontFamily: "'Space Mono', monospace" }}>
-                            SELECT DIFFICULTY
-                        </p>
-                        <div className="grid grid-cols-3 gap-px bg-white/5">
-                            {LEVELS.map((l) => (
-                                <div key={l.id} className="bg-black">
-                                    <LevelCard
-                                        level={l}
-                                        selected={selectedLevel.id === l.id}
-                                        onClick={() => setSelectedLevel(l)}
-                                    />
-                                </div>
-                            ))}
+                        <div className="mb-12">
+                            <p className="text-[10px] tracking-[0.25em] text-white/50 mb-5"
+                                style={{ fontFamily: "'Space Mono', monospace" }}>
+                                SELECT DIFFICULTY
+                            </p>
+                            <div className="grid grid-cols-3 gap-px bg-white/5">
+                                {LEVELS.map((l) => (
+                                    <div key={l.id} className="bg-black">
+                                        <LevelCard
+                                            level={l}
+                                            selected={selectedLevel.id === l.id}
+                                            onClick={() => setSelectedLevel(l)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
                     )}
 
                     {/* EDITOR SPLIT */}
@@ -354,8 +354,8 @@ export default function GetBuged() {
                                     >
                                         {mode === "bug" ? (
                                             selectedLevel.id === 3 ? "DESTROYING YOUR CODE..."
-                                            : selectedLevel.id === 2 ? "PLANTING TRAPS..."
-                                            : "ADDING BUGS..."
+                                                : selectedLevel.id === 2 ? "PLANTING TRAPS..."
+                                                    : "ADDING BUGS..."
                                         ) : "ANALYZING CODE..."}
                                     </span>
                                 </div>
@@ -467,10 +467,10 @@ export default function GetBuged() {
                                 fontFamily: "'Space Mono', monospace",
                                 background: loading ? "rgba(255,255,255,0.1)"
                                     : mode === "bug"
-                                    ? selectedLevel.id === 3 ? "#f87171"
-                                    : selectedLevel.id === 2 ? "#facc15"
-                                    : "white"
-                                    : "#fbbf24",
+                                        ? selectedLevel.id === 3 ? "#f87171"
+                                            : selectedLevel.id === 2 ? "#facc15"
+                                                : "white"
+                                        : "#fbbf24",
                                 color: "black",
                                 cursor: loading ? "not-allowed" : "pointer",
                                 opacity: loading ? 0.5 : 1,
@@ -490,9 +490,9 @@ export default function GetBuged() {
                                 <>
                                     {mode === "bug" ? (
                                         <>
-                                            {selectedLevel.id === 3 ? "F**KED MY CODE"
+                                            {selectedLevel.id === 3 ? "DESTROY MY CODE"
                                                 : selectedLevel.id === 2 ? "PLANT THE TRAPS"
-                                                : "BUG MY CODE"} →
+                                                    : "BUG MY CODE"} →
                                         </>
                                     ) : (
                                         <>ANALYZE CODE →</>

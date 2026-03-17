@@ -434,7 +434,7 @@ export default function Playground() {
                                             INJECTING BUGS...
                                         </>
                                     ) : (
-                                        <>{selectedLevel.id === 3 ? "F**K MY CODE" : selectedLevel.id === 2 ? "PLANT THE TRAPS" : "BUG MY CODE"} →</>
+                                        <>{selectedLevel.id === 3 ? "DESTROY MY CODE" : selectedLevel.id === 2 ? "PLANT THE TRAPS" : "BUG MY CODE"} →</>
                                     )}
                                 </button>
                             </div>
