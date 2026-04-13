@@ -106,14 +106,14 @@ export default function Login() {
             </button>
           </form>
 
-          <button
+          {/* <button
             type="button"
             onClick={handleGoogle}
             className="w-full mt-4 py-3 text-[11px] tracking-widest border border-white/15 text-white/80 hover:bg-white/5"
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
             CONTINUE WITH GOOGLE
-          </button>
+          </button> */}
 
           <p
             className="mt-6 text-[11px] text-white/40"
